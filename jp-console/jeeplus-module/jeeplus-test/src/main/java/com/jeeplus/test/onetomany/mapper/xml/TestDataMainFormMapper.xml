@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.test.onetomany.mapper.TestDataMainFormMapper">
+
+	<sql id="testDataMainFormColumns">
+		a.id AS "id",
+		a.user_id AS "tuser.id",
+		a.office_id AS "office.id",
+		a.area_id AS "area.id",
+		a.name AS "name",
+		a.sex AS "sex",
+		a.file AS "file",
+		a.in_date AS "inDate",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+
+		tuser.name AS "tuser.name",
+
+		office.name AS "office.name",
+
+		area.name AS "area.name"
+	</sql>
+
+	<sql id="testDataMainFormJoins">
+
+		LEFT JOIN sys_user tuser ON tuser.id = a.user_id
+		LEFT JOIN sys_office office ON office.id = a.office_id
+		LEFT JOIN sys_area area ON area.id = a.area_id
+	</sql>
+
+
+
+	<select id="findById" resultType="com.jeeplus.test.onetomany.service.dto.TestDataMainFormDTO">
+		SELECT
+			<include refid="testDataMainFormColumns"/>
+		FROM test_data_main a
+		<include refid="testDataMainFormJoins"/>
+		WHERE a.id = #{id} and a.del_flag = 0
+	</select>
+
+	<select id="findList" resultType="com.jeeplus.test.onetomany.service.dto.TestDataMainFormDTO" >
+		SELECT
+			<include refid="testDataMainFormColumns"/>
+		FROM test_data_main a
+		<include refid="testDataMainFormJoins"/>
+	    ${ew.customSqlSegment}
+	</select>
+
+</mapper>

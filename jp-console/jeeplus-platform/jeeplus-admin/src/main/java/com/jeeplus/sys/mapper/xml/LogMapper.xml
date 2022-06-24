@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.sys.mapper.LogMapper">
+
+	<select id="findList" resultType="com.jeeplus.sys.service.dto.LogDTO">
+		SELECT
+			a.*,
+			u.id AS "createBy.id",
+			u.name AS "createBy.name",
+			c.name AS "createBy.companyDTO.name",
+			o.name AS "createBy.officeDTO.name"
+		FROM sys_log a
+		left JOIN sys_user u ON u.id = a.create_by
+		left JOIN sys_office c ON c.id = u.company_id
+		left JOIN sys_office o ON o.id = u.office_id
+		${ew.customSqlSegment}
+	</select>
+
+
+</mapper>

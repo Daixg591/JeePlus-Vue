@@ -1,0 +1,204 @@
+server:
+  port: 8082
+  servlet:
+    context-path:
+  tomcat:
+    uri-encoding: UTF-8
+    basedir: # /Users/liugf
+    accesslog:
+      pattern: common
+      enabled: true
+      directory: logs
+      prefix: jeeplus_access_log
+      suffix: .log
+      request-attributes-enabled: true
+      rename-on-rotate: true
+    max-http-form-post-size: 200MB
+  jetty:
+    max-http-form-post-size: 20000000B
+logging:
+  level:
+    root: INFO
+    #    org.flowable: DEBUG
+    com.jeeplus: DEBUG
+    org.apache.shiro.cache.ehcache.EhCacheManager: WARN
+spring:
+  servlet:
+    multipart:
+      maxFileSize:  1000MB
+      maxRequestSize: 1000MB
+  devtools:
+    restart:
+      enabled: true
+  #  profiles:
+  #    active: dev
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  #  jpa:
+  #    open-in-view: false
+  datasource:
+    dynamic:
+      druid: # 全局druid参数，绝大部分值和默认保持一致。(现已支持的参数如下,不清楚含义不要乱设置)
+        SelectMethod: cursor
+        filters: stat # 注意这个值和druid原生不一致，默认启动了stat,wall
+      p6spy: false # 默认false,线上必须关闭。开发阶段可以打开调试输出mybatis语句，但是有许多莫名其妙的bug，以及严重的性能问题，所以正式环境必须关闭。
+      primary: master
+      datasource:
+        master:
+          username: dev
+          password: dev&dev
+          url: jdbc:mysql://bj-cdb-d5h0jgqy.sql.tencentcdb.com:62556/jp_9?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=Asia/Shanghai
+          driver-class-name: com.mysql.cj.jdbc.Driver
+
+          #oracle database settings
+#          username: monitor
+#          password: monitor
+#          url: jdbc:oracle:thin:@localhost:1521:helowin
+#          driver-class-name: oracle.jdbc.driver.OracleDriver
+
+
+          ##mssql database settings
+#            username: sa
+#            password: yourStrong(!)Password
+#            driver-class-name: net.sourceforge.jtds.jdbc.Driver
+#            url: jdbc:jtds:sqlserver://localhost:1433;SelectMethod=cursor;DatabaseName=jeeplus-vue-base
+#            SelectMethod: cursor
+#            testSql: SELECT 'x'
+
+
+          ##pg database settings
+#              username: postgres
+#              password: password
+#              driver-class-name: org.postgresql.Driver
+#              url: jdbc:postgresql://localhost:54321/jeeplus-vue-pg
+#              testSql: SELECT 'x'
+  # if you need use pg database , please enable this config.
+#    jpa:
+#      properties:
+#        hibernate:
+#          jdbc:
+#            lob:
+#              non_contextual_creation: true
+  #spring-ehcache的配置
+  redis:
+    host: localhost
+    port: 6379
+    expireTime: 3600000 #单位秒
+  mvc.servlet.load-on-startup: 1
+  jmx:
+    enabled: false
+  # quartz任务配置
+  quartz:
+    job-store-type: jdbc
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: clusteredScheduler
+            instanceId: AUTO
+          jobStore:
+            selectWithLockSQL: SELECT * FROM {0}LOCKS UPDLOCK WHERE LOCK_NAME = ?
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            tablePrefix: QRTZ_
+            isClustered: false # 打开集群配置
+            clusterCheckinInterval: 2000 # 设置集群检查间隔20s
+            useProperties: false
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+flowable:
+  # 关闭定时任务Job
+  async-executor-activate: true
+  check-process-definitions: false
+  process-definition-location-prefix: classpath:/processes/
+  database-schema-update: false
+  common:
+    app:
+      idm-url: http://localhost:9999
+      idm-admin:
+        user: admin
+        password: test
+#mybatis-plus配置
+mybatis-plus:
+  config-location: classpath:/mybatis/mybatis-config.xml
+  mapper-locations:
+    - classpath*:com/jeeplus/**/*Mapper.xml
+    - classpath:/META-INF/admin-mybatis-mappings/*.xml
+    - classpath:/META-INF/modeler-mybatis-mappings/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.jeeplus.**.domain
+  configuration-properties:
+    prefix:
+    boolValue: TRUE
+    blobType: BLOB
+  type-handlers-package: com.jeeplus.core.mapper
+#  global-config:
+#    db-config:
+#      logic-removeWithChildrenById-field: delFlag  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+#      logic-removeWithChildrenById-value: 1 # 逻辑已删除值(默认为 1)
+#      logic-not-removeWithChildrenById-value: 0 # 逻辑未删除值(默认为 0)
+
+#是否开启 swagger，生产环境请关闭
+swagger:
+  enable: true
+
+#cas服务端的地址
+cas:
+  server-url-prefix: https://www.cainiao.com:8443/cas
+#oss配置
+config:
+  accessory:
+    type: minIO       #local, aliyun, minIO
+    baseDir: file
+    local:
+      location: d:\\accessory
+    aliyun:
+      endpoint: oss-cn-hangzhou.aliyuncs.com
+      accessKeyId: LTAI4Fhraue2ayc1KQMkZz5F
+      accessKeySecret: hMpiD9KXcuWNMgzZxFt1fXK0gRMR70
+      bucketName: testajgw
+    minIO:
+      endpoint:
+      accessKey:
+      secretKey:
+      bucketName:
+#wps配置
+wps:
+  appid: 
+  appsecret: 
+  download_host: http://xxxxxx.org/jeeplus-vue
+  domain: https://wwo.wps.cn
+  downloadCallbackPath: /usr/local/wps
+  webctx: /jeeplus-vue
+
+#演示模式
+demoMode: false
+#上传文件绝对路径, 路径中不允许包含“userfiles”
+userfiles:
+  basedir:       # 文件上传路径，可以留空
+  allowedType: file  # 允许上传的文件类型， all, file ,image, audio, video, office
+  extensions:
+    all: all       # 允许上传所有类型文件
+    file: 7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip       # 只允许上传安全文件（linux系统非可执行）
+    image: gif,jpg,jpeg,bmp,png     # 只允许上传图片
+    audio: CD,OGG,MP3,ASF,WMA,WAV,MP3PRO,RM,REAL,APE,MODULE,MIDI,VQF    # 只允许上传音频
+    video: AVI,WMV,RM,RMVB,MPEG1,MPEG2,MPEG4(MP4),3GP,ASF,SWF,VOB,DAT,MOV,M4V,FLV,F4V,MKV,MTS,TS     # 只允许上传视频
+    office: txt,xls,xlsx,xlsm,xltx,xltm,xlsb,xlam,doc,docx,docm,dotx,dotm,ppt,pptx,pptm,ppsx,ppsm,potx,potm,ppam     # 只允许上传office文件
+#JWT access token过期时间（access过期时间，并不是指需要重新登录的超时时间，而是指需要刷新重新获取access token的时间，超时登录的时间是3*EXPIRE_TIME，即refresh token的有效时时间)
+jwt.accessToken.expireTime: 86400000  # 24*3600*1000 24小时，单位毫秒
+
+
+#===============================#
+#====== license 信息 ================#
+#===============================#
+
+# 产品授权
+productId:
+license:
+
+
+
+
+

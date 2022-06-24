@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<body>
+<div class="custom-mount" style="height: 100%"></div>
+</body>
+<script src="https://qn.cache.wpscdn.cn/js/jquery-1.9.1.min.js"></script>
+<script src="web-office-sdk-v1.1.2.umd.js"></script>
+<script src="./jwps.js"></script>
+<script>
+    var wps;
+
+    function openFile() {;
+        $.get("/weboffice/url?_w_fname=" + filename, function (result) {
+            console.log(result);
+            // url这个样子 : https://wwo.wps.cn/office/w/471eba5030?_w_fname=会议纪要.docx&_w_userid=33&_w_appid=d8f99da
+            wps = WebOfficeSDK.config({
+                wpsUrl: result.wpsUrl,
+                mount: document.querySelector('.custom-mount')
+            });
+            wps.setToken({token: result.token});
+
+        })
+    }
+
+    async function exportPdf() {
+        var result = await wps.WordApplication().ActiveDocument.ExportAsFixedFormat();
+        alert(result.url);
+
+    }
+</script>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        /* 防止双击缩放 */
+        touch-action: manipulation;
+    }
+
+    iframe {
+        flex: 1;
+    }
+</style>
+</html>

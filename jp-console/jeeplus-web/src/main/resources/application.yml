@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: development
+##############################################
+#
+# thymeleaf静态资源配置
+
+
+#
+##############################################
+# 默认路径
+spring.thymeleaf.prefix: classpath:/templates/
+# 后缀
+spring.thymeleaf.suffix: .html
+# 模板格式
+spring.thymeleaf.mode: HTML5
+spring.thymeleaf.encoding: UTF-8

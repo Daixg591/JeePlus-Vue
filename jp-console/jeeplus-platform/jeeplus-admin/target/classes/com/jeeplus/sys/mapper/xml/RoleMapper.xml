@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.sys.mapper.RoleMapper">
+
+
+	<!--查询关联的菜单Id-->
+	<select id="getMenuIdListByRoleId" resultType="String">
+		SELECT distinct a.menu_id  FROM  sys_role_menu a where a.role_id = #{roleId}
+	</select>
+
+
+	<!-- 查询关联的权限Id-->
+	<select id="getDataRuleIdListByRoleId" resultType="String">
+		SELECT distinct a.datarule_id FROM  sys_role_datarule a where a.role_id = #{roleId}
+	</select>
+
+	<!-- 查询角色的所有无下属菜单ID -->
+	<select id="queryAllNotChildrenMenuId" resultType="String">
+		SELECT
+			distinct rm.menu_id
+		FROM
+			sys_role a
+				LEFT JOIN sys_role_menu rm ON a.id = rm.role_id
+		WHERE a.id = #{id}
+		  AND (SELECT count(*) FROM sys_menu WHERE parent_id=menu_id AND is_show ='1') = 0
+	</select>
+
+	<!--维护角色与菜单权限关系-->
+	<delete id="deleteRoleMenu">
+		DELETE FROM sys_role_menu WHERE role_id = #{id}
+	</delete>
+
+	<insert id="insertRoleMenu">
+		INSERT INTO sys_role_menu(role_id, menu_id) VALUES (#{roleId}, #{menuId})
+	</insert>
+
+	<!--维护角色与数据权限关系-->
+	<delete id="deleteRoleDataRule">
+		DELETE FROM sys_role_datarule WHERE role_id = #{id}
+	</delete>
+
+	<insert id="insertRoleDataRule">
+		INSERT INTO sys_role_datarule(role_id, datarule_id) VALUES (#{roleId}, #{dataRuleId})
+	</insert>
+</mapper>

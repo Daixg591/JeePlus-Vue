@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.sys.mapper.UserMapper">
+
+	<resultMap id="userResult" type="com.jeeplus.sys.service.dto.UserDTO">
+		<id property="id" column="id" />
+		<result property="companyDTO.id" column="companyDTO.id" />
+		<result property="loginName" column="loginName" />
+		<result property="password" column="password" />
+		<result property="no" column="no" />
+		<result property="name" column="name" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="mobile" column="mobile" />
+		<result property="photo" column="photo"/>
+		<result property="sign" column="sign" />
+		<result property="remarks" column="remarks" />
+		<result property="loginFlag" column="login_flag"/>
+        <result property="loginIp" column="loginIp"/>
+		<result property="isAdmin" column="isAdmin"/>
+        <result property="loginDate" column="loginDate"/>
+		<result property="companyDTO.name" column="companyDTO.name" />
+		<result property="officeDTO.id" column="officeDTO.id" />
+		<result property="officeDTO.name" column="officeDTO.name" />
+		<result property="officeDTO.parentIds" column="officeDTO.parentIds" />
+		<collection property="roleDTOList" javaType="java.util.List" ofType="com.jeeplus.sys.service.dto.RoleDTO">
+			<id property="id" column="roleDTO.id" />
+			<result property="name" column="roleDTO.name"/>
+			<result property="enName" column="roleDTO.enName"/>
+		</collection>
+		<collection property="postDTOList" javaType="java.util.List" ofType="com.jeeplus.sys.service.dto.PostDTO">
+			<id property="id" column="postDTO.id" />
+			<result property="name" column="postDTO.name"/>
+		</collection>
+	</resultMap>
+
+	<sql id="userColumns">
+    	a.id,
+    	a.company_id AS "companyDTO.id",
+    	a.office_id AS "officeDTO.id",
+    	a.login_name AS "loginName",
+		a.is_admin AS "isAdmin",
+    	a.password,
+    	a.no,
+		a.name,
+		a.email,
+		a.phone,
+		a.mobile,
+		a.login_ip AS "loginIp",
+		a.login_date AS "loginDate",
+		a.remarks,
+		a.login_flag,
+		a.photo,
+		a.qr_code,
+		a.sign,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+    	c.name AS "companyDTO.name",
+    	c.parent_id AS "companyDTO.parent.id",
+    	c.parent_ids AS "companyDTO.parentIds",
+    	o.name AS "officeDTO.name",
+    	o.parent_id AS "officeDTO.parent.id",
+    	o.parent_ids AS "officeDTO.parentIds"
+    </sql>
+
+    <sql id="userJoins">
+		LEFT JOIN sys_office c ON c.id = a.company_id
+		LEFT JOIN sys_office o ON o.id = a.office_id
+    </sql>
+
+
+
+	<!-- 获得用户 -->
+	<select id="get" resultMap="userResult">
+		SELECT
+			<include refid="userColumns"/>,
+			r.id AS "roleDTO.id",
+			r.name AS "roleDTO.name",
+			r.en_name AS "roleDTO.enname",
+			p.id AS "postDTO.id",
+		    p.name AS "postDTO.name"
+		FROM sys_user a
+		<include refid="userJoins"/>
+		LEFT JOIN sys_user_role ur ON ur.user_id = a.id
+		LEFT JOIN sys_role r ON r.id = ur.role_id
+		LEFT JOIN sys_user_post up ON up.user_id = a.id
+		LEFT JOIN sys_post p ON p.id = up.post_id
+		${ew.customSqlSegment}
+	</select>
+
+
+	<!-- 分页查询用户信息 -->
+	<select id="findList" resultMap="userResult">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user a
+		<include refid="userJoins"/>
+			${ew.customSqlSegment}
+	</select>
+
+
+	<!-- 查询角色下的用户 -->
+	<select id="findListByRole" resultMap="userResult">
+		SELECT
+		<include refid="userColumns"/>,
+		r.id AS "roleDTO.id",
+		r.name AS "roleDTO.name",
+		r.en_name AS "roleDTO.enname"
+		FROM sys_user a
+		<include refid="userJoins"/>
+		LEFT JOIN sys_user_role ur ON ur.user_id = a.id
+		LEFT JOIN sys_role r ON r.id = ur.role_id
+		${ew.customSqlSegment}
+	</select>
+
+	<!-- 查询岗位下的用户 -->
+	<select id="findListByPostId" resultMap="userResult">
+		SELECT
+		<include refid="userColumns"/>,
+		p.id AS "postDTO.id",
+		p.name AS "postDTO.name"
+		FROM sys_user a
+		<include refid="userJoins"/>
+		LEFT JOIN sys_user_post up ON up.user_id = a.id
+		LEFT JOIN sys_post p ON p.id = up.post_id
+		<where>
+			p.id = #{postId} and a.del_flag = 0
+		</where>
+	</select>
+
+
+	<!--删除用户角色关联数据-->
+	<delete id="deleteUserRole">
+		DELETE FROM sys_user_role WHERE user_id = #{userId}
+	</delete>
+
+	<!--插入用户角色关联数据-->
+	<insert id="insertUserRole">
+		INSERT INTO sys_user_role(user_id, role_id) VALUES (#{userId}, #{roleId})
+	</insert>
+
+	<!--删除用户岗位关联数据-->
+	<delete id="deleteUserPost">
+		DELETE FROM sys_user_post WHERE user_id = #{userId}
+	</delete>
+
+	<!--插入用户角色关联数据-->
+	<insert id="insertUserPost">
+		INSERT INTO sys_user_post(user_id, post_id) VALUES (#{userId}, #{postId})
+	</insert>
+</mapper>

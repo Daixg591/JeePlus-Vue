@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.office.mapper.DocTemplateMapper">
+
+	<sql id="docTemplateColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.path AS "path",
+		a.version AS "version",
+		a.category_id AS "docCategoryDTO.id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		b.name AS "docCategoryDTO.name"
+	</sql>
+
+	<sql id="docTemplateJoins">
+			LEFT JOIN plugin_doc_category b ON b.id = a.category_id
+	</sql>
+
+
+
+	<select id="findList" resultType="com.jeeplus.office.service.dto.DocTemplateDTO" >
+		SELECT
+			<include refid="docTemplateColumns"/>
+		FROM plugin_doc_template a
+		<include refid="docTemplateJoins"/>
+        ${ew.customSqlSegment}
+	</select>
+
+
+
+</mapper>

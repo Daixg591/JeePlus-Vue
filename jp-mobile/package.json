@@ -1,0 +1,23 @@
+{
+  "name": "ColorUI-UniApp",
+  "version": "1.0.0",
+  "description": "<p style=\"text-align: center;\"><img src=\"https://image.weilanwl.com/uni/UniAppReadme.jpg\" alt=\"ColorUI简介\"></img></p>",
+  "main": "main.js",
+  "dependencies": {
+    "bpmn-js-cli": "^1.1.0",
+    "bpmn-js-task-priorities": "^0.2.0",
+    "jeeplus-flowable": "^1.0.24",
+    "lodash": "^4.17.20",
+    "lodash.pick": "^4.4.0",
+    "moment": "^2.27.0",
+    "prettier": "^1.12.1",
+    "qs": "^6.9.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

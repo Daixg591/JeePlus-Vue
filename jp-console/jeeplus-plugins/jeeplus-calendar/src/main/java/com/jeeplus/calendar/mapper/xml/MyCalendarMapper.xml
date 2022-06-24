@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.calendar.mapper.MyCalendarMapper">
+
+
+    <select id="findList" resultType="com.jeeplus.calendar.service.dto.MyCalendarDTO">
+        SELECT
+        a.*,
+        a.user_id AS "user.id",
+        tuser.name AS "user.name"
+        FROM plugin_calendar a
+        LEFT JOIN sys_user tuser ON tuser.id = a.user_id
+        ${ew.customSqlSegment}
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/jeeplus.iml" filepath="$PROJECT_DIR$/jeeplus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-platform/jeeplus-admin/jeeplus-admin.iml" filepath="$PROJECT_DIR$/jeeplus-platform/jeeplus-admin/jeeplus-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-calendar/jeeplus-calendar.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-calendar/jeeplus-calendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-platform/jeeplus-common/jeeplus-common.iml" filepath="$PROJECT_DIR$/jeeplus-platform/jeeplus-common/jeeplus-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-platform/jeeplus-core/jeeplus-core.iml" filepath="$PROJECT_DIR$/jeeplus-platform/jeeplus-core/jeeplus-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-datascreen/jeeplus-datascreen.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-datascreen/jeeplus-datascreen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-datasource/jeeplus-datasource.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-datasource/jeeplus-datasource.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-echarts/jeeplus-echarts.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-echarts/jeeplus-echarts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-flowable/jeeplus-flowable.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-flowable/jeeplus-flowable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-form/jeeplus-form.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-form/jeeplus-form.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-mail/jeeplus-mail.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-mail/jeeplus-mail.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-monitor/jeeplus-monitor.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-monitor/jeeplus-monitor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-notify/jeeplus-notify.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-notify/jeeplus-notify.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-oa/jeeplus-oa.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-oa/jeeplus-oa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-oss/jeeplus-oss.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-oss/jeeplus-oss.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-quartz/jeeplus-quartz.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-quartz/jeeplus-quartz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-module/jeeplus-test/jeeplus-test.iml" filepath="$PROJECT_DIR$/jeeplus-module/jeeplus-test/jeeplus-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-tools/jeeplus-tools.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-tools/jeeplus-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-ureport/jeeplus-ureport.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-ureport/jeeplus-ureport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-web/jeeplus-web.iml" filepath="$PROJECT_DIR$/jeeplus-web/jeeplus-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jeeplus-plugins/jeeplus-wps/jeeplus-wps.iml" filepath="$PROJECT_DIR$/jeeplus-plugins/jeeplus-wps/jeeplus-wps.iml" />
+    </modules>
+  </component>
+</project>

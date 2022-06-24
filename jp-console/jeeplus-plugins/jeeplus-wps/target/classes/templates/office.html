@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<body>
+<div class="custom-mount" style="height: 100%"></div>
+</body>
+<script src="https://qn.cache.wpscdn.cn/js/jquery-1.9.1.min.js"></script>
+<script th:src="@{/static/weboffice/web-office-sdk-v1.1.2.umd.js}"></script>
+<script th:src="@{/static/weboffice/jwps.js}"></script>
+<script th:inline="javascript">
+    var wps;
+    const filename = [[${filename}]];
+    const fileid = [[${fileid}]]
+    var ready = true
+    var ctx =  [[${webctx}]]
+    function openFile() {;
+        $.get(ctx+"/weboffice/url?_w_fname=" + filename +"&_w_fileid="+fileid , function (result) {
+            // url这个样子 : https://wwo.wps.cn/office/w/471eba5030?_w_fname=会议纪要.docx&_w_userid=33&_w_appid=d8f99da
+            wps = WebOfficeSDK.config({
+                wpsUrl: result.wpsUrl,
+                mount: document.querySelector('.custom-mount')
+            });
+            wps.setToken({token: result.token});
+            // await wps.WordApplication().ActiveDocument.ReplaceText([{key: '${name}', value: '刘高峰'}])
+
+
+        })
+    }
+
+
+
+    async function exportPdf() {
+        var result = await wps.WordApplication().ActiveDocument.ExportAsFixedFormat();
+        alert(result.url);
+
+    }
+    openFile();
+</script>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        /* 防止双击缩放 */
+        touch-action: manipulation;
+    }
+
+    iframe {
+        flex: 1;
+    }
+</style>
+</html>

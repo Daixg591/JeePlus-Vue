@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.test.shop.mapper.CategoryMapper">
+
+	<sql id="categoryColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.parent_id AS "parent.id",
+		a.parent_ids AS "parentIds",
+		a.sort AS "sort"
+	</sql>
+
+	<sql id="categoryJoins">
+		LEFT JOIN sys_user createBy ON createBy.id = a.create_by
+		LEFT JOIN sys_user updateBy ON updateBy.id = a.update_by
+	</sql>
+
+
+
+	<select id="findById" resultType="com.jeeplus.test.shop.service.dto.CategoryDTO">
+		SELECT
+			<include refid="categoryColumns"/>
+		FROM test_category a
+		<include refid="categoryJoins"/>
+		WHERE a.id = #{id} and a.del_flag = 0
+	</select>
+
+	<select id="findList" resultType="com.jeeplus.test.shop.service.dto.CategoryDTO">
+		SELECT
+			<include refid="categoryColumns"/>
+		FROM test_category a
+		<include refid="categoryJoins"/>
+	    WHERE a.del_flag = 0
+	</select>
+
+</mapper>

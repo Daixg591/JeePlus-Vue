@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.test.treetable.mapper.CarMapper">
+
+	<sql id="carColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.kind_id AS "kind.id",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+
+
+		b.name AS "kind.name"
+	</sql>
+
+	<sql id="carJoins">
+
+			LEFT JOIN test_car_kind b ON b.id = a.kind_id
+	</sql>
+
+
+
+	<select id="findById" resultType="com.jeeplus.test.treetable.service.dto.CarDTO">
+		SELECT
+			<include refid="carColumns"/>
+		FROM test_car a
+		<include refid="carJoins"/>
+		WHERE a.id = #{id} and a.del_flag = 0
+	</select>
+
+	<select id="findList" resultType="com.jeeplus.test.treetable.service.dto.CarDTO">
+		SELECT
+			<include refid="carColumns"/>
+		FROM test_car a
+		<include refid="carJoins"/>
+	    ${ew.customSqlSegment}
+	</select>
+
+</mapper>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.form.mapper.FormMapper">
+
+	<sql id="formColumns">
+		a.id AS "id",
+		a.code AS "code",
+		a.auto_create AS "autoCreate",
+        a.data_source_id AS "dataSource.id",
+        db.name AS "dataSource.name",
+        db.en_name AS "dataSource.enName",
+		a.name AS "name",
+		a.table_name AS "tableName",
+		a.source AS "source",
+		a.version AS "version",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<sql id="formJoins">
+		LEFT JOIN plugin_datasource_link db ON db.id = a.data_source_id
+	</sql>
+
+	<select id="getById" resultType="com.jeeplus.form.service.dto.FormDTO" >
+		SELECT
+		<include refid="formColumns"/>
+		FROM plugin_form a
+		<include refid="formJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+
+	<select id="findList" resultType="com.jeeplus.form.service.dto.FormDTO" >
+		SELECT
+			<include refid="formColumns"/>
+		FROM plugin_form a
+		<include refid="formJoins"/>
+		${ew.customSqlSegment}
+	</select>
+
+
+
+	<select id="findTableList" resultType="com.jeeplus.form.service.dto.DataTableDTO">
+		<if test="_databaseId == 'postgre'">
+			select relname as name,cast(obj_description(relfilenode,'pg_class') as varchar) as comments from pg_class c
+			where relname in (select tablename from pg_tables where schemaname='public' and position('_2' in tablename)=0)
+			<if test="name != null and name != ''">
+				AND relname like '%'||#{name}||'%'
+			</if>
+			order by name
+		</if>
+		<if test="_databaseId == 'oracle'">
+			SELECT
+			t.TABLE_NAME AS name,
+			c.COMMENTS AS comments
+			FROM user_tables t, user_tab_comments c
+			WHERE t.table_name = c.table_name
+			<if test="name != null and name != ''">
+				AND t.TABLE_NAME like '%'||#{name}||'%'
+			</if>
+			ORDER BY t.TABLE_NAME
+		</if>
+		<if test="_databaseId == 'mysql'">
+			SELECT t.table_name AS name,t.table_comment AS comments
+			FROM information_schema.`TABLES` t
+			WHERE t.table_schema = (select database())
+			<if test="name != null and name != ''">
+				AND t.table_name like concat('%',#{name},'%')
+			</if>
+			ORDER BY t.table_name
+		</if>
+
+		<if test="_databaseId == 'mssql'">
+			select sysobjects.name as name ,sys.extended_properties.value as comments from sysobjects
+			left join sys.extended_properties on sysobjects.id=sys.extended_properties.major_id
+			and (sys.extended_properties.minor_id = '0' or sys.extended_properties.minor_id is null)
+			where value in('U','V')
+			<if test="name != null and name != ''">
+				AND sysobjects.name LIKE '%'+#{name}+'%'
+			</if>
+			order by name
+		</if>
+	</select>
+
+	<select id="findTableByName" resultType="com.jeeplus.form.service.dto.DataTableDTO">
+		<if test="_databaseId == 'postgre'">
+			select relname as name,cast(obj_description(relfilenode,'pg_class') as varchar) as comments from pg_class c
+			where relname in (select tablename from pg_tables where schemaname='public' and position('_2' in tablename)=0)
+			<if test="name != null and name != ''">
+				AND relname = #{name}
+			</if>
+			order by name
+		</if>
+		<if test="_databaseId == 'oracle'">
+			SELECT
+			t.TABLE_NAME AS name,
+			c.COMMENTS AS comments
+			FROM user_tables t, user_tab_comments c
+			WHERE t.table_name = c.table_name
+			<if test="name != null and name != ''">
+				AND t.TABLE_NAME = #{name}
+			</if>
+			ORDER BY t.TABLE_NAME
+		</if>
+		<if test="_databaseId == 'mysql'">
+			SELECT t.table_name AS name,t.TABLE_COMMENT AS comments
+			FROM information_schema.`TABLES` t
+			WHERE t.TABLE_SCHEMA = (select database())
+			<if test="name != null and name != ''">
+				AND t.TABLE_NAME = #{name}
+			</if>
+			ORDER BY t.TABLE_NAME
+		</if>
+		<if test="_databaseId == 'mssql'">
+			select sysobjects.name as name ,sys.extended_properties.value as comments from sysobjects
+			left join sys.extended_properties on sysobjects.id=sys.extended_properties.major_id
+			and (sys.extended_properties.minor_id = '0' or sys.extended_properties.minor_id is null)
+			where value in('U','V')
+			<if test="name != null and name != ''">
+				AND sysobjects.name = #{name}
+			</if>
+			order by name
+		</if>
+	</select>
+
+	<select id="findTableColumnList" resultType="com.jeeplus.form.service.dto.DataTableColumnDTO">
+		<if test="_databaseId == 'postgre'">
+			SELECT
+			a.attname AS name,
+			(CASE WHEN a.attnotnull = 'f' THEN '1' ELSE '0' END) AS isNull,
+			(a.attnum * 10) as sort,
+			b.description AS comments,
+			t.typname AS jdbcType
+
+			FROM pg_class c,
+			pg_attribute a
+			LEFT OUTER JOIN pg_description b ON a.attrelid=b.objoid AND a.attnum = b.objsubid,
+			pg_type t
+			WHERE
+			a.attnum > 0
+			and a.attrelid = c.oid
+			and a.atttypid = t.oid
+			<if test="name != null and name != ''">
+				AND c.relname = #{name}
+			</if>
+			ORDER BY a.attnum
+		</if>
+		<if test="_databaseId == 'oracle'">
+			SELECT
+			t.COLUMN_NAME AS name,<!--
+				t.DATA_TYPE,
+				t.DATA_LENGTH,
+				t.DATA_PRECISION,
+				t.DATA_SCALE, -->
+			(CASE WHEN t.NULLABLE = 'Y' THEN '1' ELSE '0' END) AS isNull,
+			(t.COLUMN_ID * 10) AS sort,
+			c.COMMENTS AS comments,
+			decode(t.DATA_TYPE,'DATE',t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
+			'VARCHAR2', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
+			'VARCHAR', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
+			'NVARCHAR2', t.DATA_TYPE || '(' || t.DATA_LENGTH/2 || ')',
+			'CHAR', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
+			'NUMBER',t.DATA_TYPE || (nvl2(t.DATA_PRECISION,nvl2(decode(t.DATA_SCALE,0,null,t.DATA_SCALE),
+			'(' || t.DATA_PRECISION || ',' || t.DATA_SCALE || ')',
+			'(' || t.DATA_PRECISION || ')'),'(18)')),t.DATA_TYPE) AS jdbcType
+			FROM user_tab_columns t, user_col_comments c
+			WHERE t.TABLE_NAME = c.table_name
+			AND t.COLUMN_NAME = c.column_name
+			<if test="name != null and name != ''">
+				AND t.TABLE_NAME = #{name}
+			</if>
+			ORDER BY t.COLUMN_ID
+		</if>
+		<if test="_databaseId == 'mysql'">
+			SELECT t.COLUMN_NAME AS name, (CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull,
+			(t.ORDINAL_POSITION * 10) AS sort,t.COLUMN_COMMENT AS comments,t.COLUMN_TYPE AS jdbcType
+			FROM information_schema.`COLUMNS` t
+			WHERE t.TABLE_SCHEMA = (select database())
+			<if test="name != null and name != ''">
+				AND t.TABLE_NAME = #{name}
+			</if>
+			ORDER BY t.ORDINAL_POSITION
+		</if>
+		<if test="_databaseId == 'mssql'">
+			SELECT
+			sort = a.colorder*10,
+			name = a.name,
+			jdbcType = b.name,
+			isNull = case when a.isnullable=1 then '1'else '0' end,
+			comments = isnull(g.[value],'')
+			FROM
+			syscolumns a
+			left join
+			systypes b
+			on
+			a.xusertype=b.xusertype
+			inner join
+			sysobjects d
+			on
+			a.id=d.id and d.xtype in('U','V') and d.name != 'dtproperties'
+			left join
+			syscomments e
+			on
+			a.cdefault=e.id
+			left join
+			sys.extended_properties g
+			on
+			a.id=G.major_id and a.colid=g.minor_id
+			left join
+			sys.extended_properties f
+			on
+			d.id=f.major_id and f.minor_id=0
+			where
+			d.name= #{name}
+			order by
+			a.id,a.colorder
+		</if>
+	</select>
+
+</mapper>

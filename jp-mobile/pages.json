@@ -1,0 +1,282 @@
+{
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/ucharts/ucharts",
+			"style": {
+				"navigationBarTitleText": "ucharts"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/user/person/person",
+			"style": {
+				
+			}
+		},
+		{
+			"path": "pages/user/setting/avatar/avatar",
+			"style": {
+				
+			}
+		},
+		{
+			"path": "pages/user/setting/password/password",
+			"style": {
+				
+			}
+		},
+		{
+			"path": "pages/samples/basics/home",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/home",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/plugin/home",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/layout",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/background",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/text",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/icon",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/button",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/design",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/tag",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/avatar",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/progress",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/shadow",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/basics/loading",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/bar",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/nav",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/list",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/card",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/form",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/timeline",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/chat",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/swiper",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/modal",
+			"style": {}
+		},
+		{
+			"path": "pages/samples/component/steps",
+			"style": {}
+		}, {
+			"path": "pages/samples/plugin/indexes",
+			"style": {}
+		}, {
+			"path": "pages/samples/plugin/animation",
+			"style": {}
+		}, {
+			"path": "pages/samples/plugin/drawer",
+			"style": {}
+		}, {
+			"path": "pages/samples/plugin/verticalnav",
+			"style": {}
+		}
+        ,{
+            "path" : "pages/message/message",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/workbench/workbench",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/apps",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/home/home",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/addressbook/addressbook",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/samples/ucharts/ucharts",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/notification/notification",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/mail/mail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/notification/notificationDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/notification/oaNotifyForm",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/mail/inbox",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/mail/outbox",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/mail/draft",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/mail/trash",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/mail/sendEmailForm",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/mail/sendEmailDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/mail/ReceivedMailDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/apps/mail/TrashMailDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/workbench/task/ApplyList",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/workbench/task/TodoList",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/workbench/task/HistoryList",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/workbench/task/FlowCopyList",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/workbench/task/TaskForm",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/test/activiti/TestActivitiLeaveForm",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/workbench/task/TaskFormDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/test/activiti/TestActivitiExpenseForm",
+            "style" : {}
+        }
+    ],
+	"globalStyle": {
+		"mp-alipay": {
+			/* 支付宝小程序特有相关 */
+			"transparentTitle": "always",
+			"allowsBounceVertical": "NO"
+		},
+	  "usingComponents": {
+				"ly-tree-node": "/components/ly-tree/ly-tree-node"
+			},
+		"navigationBarBackgroundColor": "#0081ff",
+		"navigationBarTitleText": "Jeeplus 移动审批",
+		"navigationStyle": "custom",
+		"navigationBarTextStyle": "white"
+	},
+	"usingComponts": true,
+		"condition": { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [{
+				"name": "表单", //模式名称
+				"path": "pages/samples/component/form", //启动页面
+				"query": "" //启动参数
+			}
+		]
+	},
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"Am-(.*)": "@/components/Am-$1/index.vue"
+		}
+	}
+
+}

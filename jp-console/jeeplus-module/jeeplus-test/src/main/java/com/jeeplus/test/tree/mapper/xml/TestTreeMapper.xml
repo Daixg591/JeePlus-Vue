@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.test.tree.mapper.TestTreeMapper">
+
+	<sql id="testTreeColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.sort AS "sort",
+		a.parent_id AS "parent.id",
+		a.parent_ids AS "parentIds",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks1",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<sql id="testTreeJoins">
+		LEFT JOIN sys_user createBy ON createBy.id = a.create_by
+		LEFT JOIN sys_user updateBy ON updateBy.id = a.update_by
+	</sql>
+
+
+
+	<select id="findById" resultType="com.jeeplus.test.tree.service.dto.TestTreeDTO">
+		SELECT
+			<include refid="testTreeColumns"/>
+		FROM test_tree a
+		<include refid="testTreeJoins"/>
+		WHERE a.id = #{id} and a.del_flag = 0
+	</select>
+
+	<select id="findList" resultType="com.jeeplus.test.tree.service.dto.TestTreeDTO">
+		SELECT
+			<include refid="testTreeColumns"/>
+		FROM test_tree a
+		<include refid="testTreeJoins"/>
+	    WHERE a.del_flag = 0
+	</select>
+
+</mapper>

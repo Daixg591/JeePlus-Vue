@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.notify.mapper.NotifyMapper">
+
+    <sql id="notifyColumns">
+        a.id AS "id",
+        a.type AS "type",
+        a.title AS "title",
+        a.content AS "content",
+        a.files AS "files",
+        a.status AS "status",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        a.remarks AS "remarks",
+        a.del_flag AS "delFlag",
+        b.read_num AS "readNum",
+        b.un_read_num AS "unReadNum",
+        u.name AS "createBy.name",
+        u.photo AS "createBy.photo"
+
+    </sql>
+
+    <sql id="notifyJoins">
+        <!-- 查询已读和未读条数 -->
+        LEFT JOIN (
+        SELECT r.notify_id,
+        sum(case when r.del_flag = 0 and r.read_flag = '1' then 1 else 0 end) read_num,
+        sum(case when r.del_flag = 0 and r.read_flag != '1' then 1 else 0 end) un_read_num
+        FROM plugin_notify_record r GROUP BY r.notify_id
+        ) b ON b.notify_id = a.id
+
+        JOIN sys_user u ON u.id = a.CREATE_BY
+    </sql>
+
+    <select id="getById" resultType="com.jeeplus.notify.service.dto.NotifyDTO">
+        SELECT
+        <include refid="notifyColumns"/>
+        FROM plugin_notify a
+        <include refid="notifyJoins"/>
+        WHERE a.id = #{id} and a.del_flag = 0
+    </select>
+
+    <select id="findList" resultType="com.jeeplus.notify.service.dto.NotifyDTO">
+        SELECT
+        <include refid="notifyColumns"/>
+        <if test="isSelf">,
+            r.read_flag AS "readFlag"
+        </if>
+        FROM plugin_notify a
+        <include refid="notifyJoins"/>
+        <!-- 我的通知 -->
+        <if test="isSelf">
+            JOIN plugin_notify_record r ON r.notify_id = a.id AND a.status = '1' AND r.user_id = #{currentUserId} AND r.del_flag = 0
+            <if test="readFlag != null and readFlag != ''">
+                AND r.read_flag = #{readFlag}
+            </if>
+        </if>
+        ${ew.customSqlSegment}
+    </select>
+
+
+
+    <select id="findCount" resultType="Long">
+        SELECT
+        count(1)
+        FROM plugin_notify a
+        <if test="isSelf">
+            JOIN plugin_notify_record r ON r.notify_id = a.id AND r.user_id = #{currentUserId} AND r.del_flag = 0
+            <if test="readFlag != null and readFlag != ''">
+                AND r.read_flag = #{readFlag}
+            </if>
+        </if>
+        WHERE a.del_flag = 0
+        <if test="isSelf">
+            AND a.STATUS = '1'
+        </if>
+    </select>
+
+
+
+</mapper>

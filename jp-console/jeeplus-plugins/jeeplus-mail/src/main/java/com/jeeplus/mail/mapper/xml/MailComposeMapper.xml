@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.mail.mapper.MailComposeMapper">
+
+    <sql id="mailComposeColumns">
+        a.id AS "id",
+        a.status AS "status",
+        a.sender_id AS "sender.id",
+        a.receiver_ids AS "receiverIds",
+        a.send_time AS "sendTime",
+        a.mail_id AS "mailDTO.id",
+        mail.title AS "mailDTO.title",
+        mail.overview AS "mailDTO.overview",
+        mail.content AS "mailDTO.content"
+    </sql>
+
+    <sql id="mailComposeJoins">
+        LEFT JOIN plugin_mail mail ON mail.id = a.mail_id
+    </sql>
+    <select id="get" resultType="com.jeeplus.mail.service.dto.MailComposeDTO">
+        SELECT
+        <include refid="mailComposeColumns"/>
+        FROM plugin_mail_compose a
+        <include refid="mailComposeJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="com.jeeplus.mail.service.dto.MailComposeDTO">
+        SELECT
+        <include refid="mailComposeColumns"/>
+        FROM plugin_mail_compose a
+        <include refid="mailComposeJoins"/>
+        ${ew.customSqlSegment}
+        order by a.send_time desc
+    </select>
+
+</mapper>

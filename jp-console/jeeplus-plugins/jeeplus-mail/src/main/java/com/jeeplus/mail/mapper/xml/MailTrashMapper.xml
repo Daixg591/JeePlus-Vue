@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.mail.mapper.MailTrashMapper">
+
+	<sql id="mailTrashColumns">
+		a.id AS "id",
+		a.status AS "status",
+		a.sender_id AS "sender.id",
+		a.receiver_ids AS "receiverIds",
+		a.send_time AS "sendTime",
+		a.mail_id AS "mail.id",
+		a.create_by AS "createBy.id",
+		sender.name AS "sender.name",
+		mail.title AS "mailDTO.title",
+		mail.content AS "mailDTO.content"
+	</sql>
+
+	<sql id="mailTrashJoins">
+
+		LEFT JOIN sys_user sender ON sender.id = a.sender_id
+		LEFT JOIN  plugin_mail mail ON mail.id = a.mail_id
+	</sql>
+
+
+	<select id="get" resultType="com.jeeplus.mail.service.dto.MailTrashDTO" >
+		SELECT
+			<include refid="mailTrashColumns"/>
+		FROM plugin_mail_trash a
+		<include refid="mailTrashJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="com.jeeplus.mail.service.dto.MailTrashDTO" >
+		SELECT
+			<include refid="mailTrashColumns"/>
+		FROM plugin_mail_trash a
+		<include refid="mailTrashJoins"/>
+
+		${ew.customSqlSegment}
+		order by a.send_time desc
+	</select>
+
+
+</mapper>

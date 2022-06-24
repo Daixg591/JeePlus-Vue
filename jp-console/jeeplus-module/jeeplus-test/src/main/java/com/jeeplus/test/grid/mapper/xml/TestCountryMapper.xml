@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.test.grid.mapper.TestCountryMapper">
+
+	<sql id="testCountryColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.sum AS "sum",
+		a.continent_id AS "continent.id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+
+
+
+		continent.name AS "continent.name"
+	</sql>
+
+	<sql id="testCountryJoins">
+
+		LEFT JOIN test_continent continent ON continent.id = a.continent_id
+		LEFT JOIN sys_user createBy ON createBy.id = a.create_by
+		LEFT JOIN sys_user updateBy ON updateBy.id = a.update_by
+	</sql>
+
+
+
+	<select id="findById" resultType="com.jeeplus.test.grid.service.dto.TestCountryDTO">
+		SELECT
+			<include refid="testCountryColumns"/>
+		FROM test_country a
+		<include refid="testCountryJoins"/>
+		WHERE a.id = #{id} and a.del_flag = 0
+	</select>
+
+	<select id="findList" resultType="com.jeeplus.test.grid.service.dto.TestCountryDTO">
+		SELECT
+			<include refid="testCountryColumns"/>
+		FROM test_country a
+		<include refid="testCountryJoins"/>
+	    ${ew.customSqlSegment}
+	</select>
+
+</mapper>

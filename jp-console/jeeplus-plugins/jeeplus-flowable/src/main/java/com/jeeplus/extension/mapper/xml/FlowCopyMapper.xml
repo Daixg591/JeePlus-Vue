@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.extension.mapper.FlowCopyMapper">
+
+
+	<select id="findList" resultType="com.jeeplus.extension.service.dto.FlowCopyDTO" >
+		SELECT
+			a.id AS "id",
+			a.user_id AS "userId",
+			a.proc_def_id AS "procDefId",
+			a.proc_ins_id AS "procInsId",
+			a.create_date AS "createDate",
+			a.create_by AS "createBy.id",
+			a.proc_def_name AS "procDefName",
+			a.proc_ins_name AS "procInsName",
+			a.task_name AS "taskName",
+			createBy.name AS "createBy.name"
+		FROM act_extension_cc a LEFT JOIN sys_user createBy ON createBy.id = a.create_by
+		${ew.customSqlSegment}
+	</select>
+
+
+</mapper>

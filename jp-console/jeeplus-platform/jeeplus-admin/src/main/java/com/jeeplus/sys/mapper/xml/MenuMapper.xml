@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.sys.mapper.MenuMapper">
+
+     <resultMap id="menuResult" type="com.jeeplus.sys.service.dto.MenuDTO">
+		<id property="id" column="id" />
+		<result property="parentIds" column="parentIds" />
+		<result property="name" column="name" />
+		<result property="href" column="href" />
+		<result property="target" column="target" />
+		<result property="icon" column="icon" />
+		<result property="sort" column="sort" />
+		<result property="value" column="value" />
+		<result property="isShow" column="isShow" />
+		<result property="affix" column="affix" />
+		<result property="permission" column="permission" />
+	</resultMap>
+
+
+
+	<resultMap id="menuDataRuleResult" type="com.jeeplus.sys.service.dto.MenuDTO">
+		<id property="id" column="id" />
+		<result property="parentIds" column="parentIds" />
+		<result property="name" column="name" />
+		<result property="href" column="href" />
+		<result property="target" column="target" />
+		<result property="icon" column="icon" />
+		<result property="sort" column="sort" />
+		<result property="value" column="value" />
+		<result property="isShow" column="isShow" />
+		<result property="affix" column="affix" />
+		<result property="permission" column="permission" />
+		<collection property="dataRuleDTOList" column="id" javaType="ArrayList"
+                    ofType="com.jeeplus.sys.service.dto.DataRuleDTO" select="findDataRuleList"/>
+	</resultMap>
+
+
+
+	<sql id="menuColumns">
+		a.id AS "id",
+		a.parent_id AS "parent.id",
+		a.parent_ids AS "parentIds",
+		a.name,
+		a.href,
+		a.target,
+		a.icon,
+		a.sort,
+		a.is_show AS "isShow",
+		a.affix AS "affix",
+		a.menu_type AS "type",
+		a.permission,
+		a.remarks,
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		p.name AS "parent.name"
+	</sql>
+
+	<sql id="menuJoins">
+		LEFT JOIN sys_menu p ON p.id = a.parent_id
+    </sql>
+
+
+
+	<select id="findAllWithDataRuleList" resultMap="menuDataRuleResult">
+		SELECT
+			<include refid="menuColumns"/>
+		FROM sys_menu a
+		<include refid="menuJoins"/>
+		WHERE a.del_flag = 0 AND ( SELECT COUNT(*) FROM sys_datarule sd WHERE sd.menu_id = a.id ) &gt; 0
+		ORDER BY a.sort
+	</select>
+
+	<select id="findDataRuleList" resultType="com.jeeplus.sys.service.dto.DataRuleDTO" >
+		SELECT
+		a.id AS "id",
+		a.menu_id AS "menuId",
+		a.name AS "name",
+		a.t_field AS "field",
+		a.t_express AS "express",
+		a.t_value AS "value",
+		a.sql_segment AS "sqlSegment",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+		FROM sys_datarule a
+		<where>
+			a.menu_id =#{id} and a.del_flag = 0
+		</where>
+	</select>
+
+	<select id="findByUserId"  resultMap="menuResult">
+		SELECT DISTINCT
+			<include refid="menuColumns"/>
+		FROM sys_menu a
+		LEFT JOIN sys_menu p ON p.id = a.parent_id
+		JOIN sys_role_menu rm ON rm.menu_id = a.id
+		JOIN sys_role r ON r.id = rm.role_id AND r.useable='1'
+		JOIN sys_user_role ur ON ur.role_id = r.id
+		JOIN sys_user u ON u.id = ur.user_id AND u.id = #{userId}
+		WHERE a.del_flag = 0 AND r.del_flag = 0 AND u.del_flag = 0
+		ORDER BY a.sort
+	</select>
+
+	<delete id="deleteMenuRole">
+		Delete from sys_role_menu where menu_id = #{menuId}
+	</delete>
+
+	<select id="mrList" resultType="String">
+		SELECT distinct a.menu_id  FROM sys_role_menu a left join sys_menu menu on a.menu_id = menu.id  ${ew.customSqlSegment}
+	</select>
+
+	<select id="mdList" resultType="String">
+		SELECT distinct a.id  FROM sys_datarule a left join sys_menu menu on a.menu_id = menu.id  ${ew.customSqlSegment}
+	</select>
+
+
+</mapper>

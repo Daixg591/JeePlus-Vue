@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.notify.mapper.NotifyRecordMapper">
+
+    <sql id="notifyRecordColumns">
+        a.ID AS "id",
+        a.notify_id AS "notifyDTO.id",
+        a.user_id AS "userDTO.id",
+        a.read_flag AS "readFlag",
+        a.read_date AS "readDate",
+        u.name AS "userDTO.name",
+        o.name AS "userDTO.officeDTO.name"
+    </sql>
+
+    <sql id="notifyRecordJoins">
+        LEFT JOIN sys_user u ON u.id = a.user_id
+        LEFT JOIN sys_office o ON o.id = u.office_id
+    </sql>
+
+
+    <select id="findListByNotifyId" resultType="com.jeeplus.notify.service.dto.NotifyRecordDTO">
+        SELECT
+        <include refid="notifyRecordColumns"/>
+        FROM plugin_notify_record a
+        <include refid="notifyRecordJoins"/>
+        WHERE a.notify_id = #{notifyId} and a.del_flag = 0 ORDER BY a.read_flag ASC
+    </select>
+
+
+</mapper>

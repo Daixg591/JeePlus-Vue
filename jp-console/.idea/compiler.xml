@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="jeeplus-core" />
+        <module name="jeeplus-oa" />
+      </profile>
+      <profile name="Annotation profile for jeeplus-vue" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.4.1.Final/mapstruct-processor-1.4.1.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.1.Final/mapstruct-1.4.1.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.12/lombok-1.18.12.jar" />
+        </processorPath>
+        <module name="jeeplus-admin" />
+        <module name="jeeplus-calendar" />
+        <module name="jeeplus-common" />
+        <module name="jeeplus-datascreen" />
+        <module name="jeeplus-datasource" />
+        <module name="jeeplus-echarts" />
+        <module name="jeeplus-flowable" />
+        <module name="jeeplus-form" />
+        <module name="jeeplus-mail" />
+        <module name="jeeplus-monitor" />
+        <module name="jeeplus-notify" />
+        <module name="jeeplus-oss" />
+        <module name="jeeplus-quartz" />
+        <module name="jeeplus-test" />
+        <module name="jeeplus-tools" />
+        <module name="jeeplus-ureport" />
+        <module name="jeeplus-web" />
+        <module name="jeeplus-wps" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="jeeplus" target="8" />
+      <module name="jeeplus-admin" target="8" />
+      <module name="jeeplus-calendar" target="8" />
+      <module name="jeeplus-common" target="8" />
+      <module name="jeeplus-core" target="1.8" />
+      <module name="jeeplus-datascreen" target="8" />
+      <module name="jeeplus-datasource" target="8" />
+      <module name="jeeplus-echarts" target="8" />
+      <module name="jeeplus-flowable" target="8" />
+      <module name="jeeplus-form" target="8" />
+      <module name="jeeplus-mail" target="8" />
+      <module name="jeeplus-monitor" target="8" />
+      <module name="jeeplus-notify" target="8" />
+      <module name="jeeplus-oa" target="1.8" />
+      <module name="jeeplus-oss" target="8" />
+      <module name="jeeplus-quartz" target="8" />
+      <module name="jeeplus-test" target="8" />
+      <module name="jeeplus-tools" target="8" />
+      <module name="jeeplus-ureport" target="8" />
+      <module name="jeeplus-web" target="8" />
+      <module name="jeeplus-wps" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="jeeplus-admin" options="-parameters" />
+      <module name="jeeplus-calendar" options="-parameters" />
+      <module name="jeeplus-common" options="-parameters" />
+      <module name="jeeplus-core" options="-parameters" />
+      <module name="jeeplus-datascreen" options="-parameters" />
+      <module name="jeeplus-datasource" options="-parameters" />
+      <module name="jeeplus-echarts" options="-parameters" />
+      <module name="jeeplus-flowable" options="-parameters" />
+      <module name="jeeplus-form" options="-parameters" />
+      <module name="jeeplus-mail" options="-parameters" />
+      <module name="jeeplus-monitor" options="-parameters" />
+      <module name="jeeplus-notify" options="-parameters" />
+      <module name="jeeplus-oa" options="-parameters" />
+      <module name="jeeplus-oss" options="-parameters" />
+      <module name="jeeplus-quartz" options="-parameters" />
+      <module name="jeeplus-test" options="-parameters" />
+      <module name="jeeplus-tools" options="-parameters" />
+      <module name="jeeplus-ureport" options="-parameters" />
+      <module name="jeeplus-web" options="-parameters" />
+      <module name="jeeplus-wps" options="-parameters" />
+    </option>
+  </component>
+</project>
